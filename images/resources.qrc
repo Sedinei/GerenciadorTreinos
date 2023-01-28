@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="images">
+    <file>cronometro.ico</file>
+    <file>cronometro.png</file>
+  </qresource>
+</RCC>
