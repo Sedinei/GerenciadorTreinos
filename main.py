@@ -1,6 +1,9 @@
-from modulos.janelas import Janelas
+from modulos.app import Gerenciador, GerenciadorError
 
-janelas = Janelas()
-pasta = janelas.get_pasta_dados()
-print(pasta)
+def main():
+    try:
+        app = Gerenciador()
+    except GerenciadorError as _:
+        return
     
+main()

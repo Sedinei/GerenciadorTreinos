@@ -1,2 +1,4 @@
 /.vscode
 /venv
+teste.py
+*.log
