@@ -1,4 +1,5 @@
 from typing import Tuple, List
+import logging
 from dataclasses import dataclass, field
 import os
 import bcrypt
@@ -39,6 +40,45 @@ class DAOControls:
         self.con = ConnetionDB(self.file)
         if not ok: self._create_tables()
     
+    def change_user(self, id_user: int, name_user: str, email_user: str, type_user: str) -> None:
+        id_tp_user = self._get_id_type_user(type_user) if type_user else None
+        fields = []
+        t = []
+        if name_user:
+            fields.append('nome_usuario=?')
+            t.append(name_user)
+        if email_user:
+            fields.append('email_usuario=?')
+            t.append(email_user)
+        if type_user:
+            fields.append('id_tp_usuario=?')
+            t.append(id_tp_user)
+        sql = f'UPDATE usuarios SET {",".join(fields)} WHERE id_usuario=?;'
+        t.append(id_user)
+        with self.con as c:
+            try:
+                c.execute(sql, t)
+            except DBError as e:
+                self._raise_log(e.args[0])
+     
+    def check_password(self, user: str, password: str) -> Tuple[int, bool]:
+        with self.con as c:
+            t = (user,)
+            c.execute('''SELECT id_usuario, senha_usuario FROM usuarios
+                         WHERE nome_usuario=?''', t)
+            id, hash_stored = c.fetchone()
+        return id, self._check_password(password, hash_stored)
+    
+    def check_unique_name_user(self, name_user: str) -> bool:
+        sql = '''SELECT count(*)
+                 FROM usuarios
+                 WHERE nome_usuario=?'''
+        t = (name_user, )
+        with self.con as c:
+            c.execute(sql, t)
+            num_names = c.fetchone()[0]
+        return num_names==0         
+    
     def get_all_users(self) -> List[Tuple[int, str, str, str]]:
         with self.con as c:
             c.execute('''SELECT
@@ -62,38 +102,16 @@ class DAOControls:
                          WHERE id_usuario=?''', t)
             name_user, email_user, type_user = c.fetchone()
             return id_user, name_user, email_user, type_user
-    
-    def check_unique_name_user(self, name_user: str) -> bool:
-        sql = '''SELECT count(*)
-                 FROM usuarios
-                 WHERE nome_usuario=?'''
-        t = (name_user, )
-        with self.con as c:
-            c.execute(sql, t)
-            num_names = c.fetchone()[0]
-        return num_names==0         
-    
-    def change_user(self, id_user: int, name_user: str, email_user: str, type_user: str) -> None:
-        id_tp_user = self._get_id_type_user(type_user) if type_user else None
-        fields = []
-        t = []
-        if name_user:
-            fields.append('nome_usuario=?')
-            t.append(name_user)
-        if email_user:
-            fields.append('email_usuario=?')
-            t.append(email_user)
-        if type_user:
-            fields.append('id_tp_usuario=?')
-            t.append(id_tp_user)
-        sql = f'UPDATE usuarios SET {",".join(fields)} WHERE id_usuario=?;'
-        t.append(id_user)
+            
+    def remove_user(self, id_user: int) -> None:
+        sql = '''DELETE FROM usuarios WHERE id_usuario=?'''
+        t = (id_user,)
         with self.con as c:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                raise DAOError(e.args[0])
-            
+                self._raise_log(e.args[0])
+    
     def save_password_user(self, id_user: int, password: str) -> None:
         hassed_pass = self._get_crypto_password(password)
         sql = 'UPDATE usuarios SET senha_usuario=? WHERE id_usuario=?'
@@ -102,25 +120,8 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                raise DAOError(e.args[0])
-    
-    def check_password(self, user: str, password: str) -> Tuple[int, bool]:
-        with self.con as c:
-            t = (user,)
-            c.execute('''SELECT id_usuario, senha_usuario FROM usuarios
-                         WHERE nome_usuario=?''', t)
-            id, hash_stored = c.fetchone()
-        return id, self._check_password(password, hash_stored)
-    
-    def remove_user(self, id_user: int) -> None:
-        sql = '''DELETE FROM usuarios WHERE id_usuario=?'''
-        t = (id_user,)
-        with self.con as c:
-            try:
-                c.execute(sql, t)
-            except DBError as e:
-                raise DAOError(e.args[0])
-    
+                self._raise_log(e.args[0])
+   
     def save_user(self, user: str, email: str, type_user: str, password: str) -> None:
         id_tp_user = self._get_id_type_user(type_user)
         hash_pwd = self._get_crypto_password(password)
@@ -130,8 +131,13 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                raise DAOError(e.args[0])
-        
+                self._raise_log(e.args[0])
+                  
+    def _check_password(self, pwd_inputed: str, hash_stored: str) -> bool:
+        byte_inputed = pwd_inputed.encode('utf-8')
+        byte_stored = hash_stored.encode('utf-8')
+        return bcrypt.checkpw(byte_inputed, byte_stored)
+    
     def _create_tables(self) -> None:
         user_adm_default = 'admin'
         pwd_adm_default = self._get_crypto_password('admin')
@@ -162,17 +168,12 @@ class DAOControls:
         with self.con as c:
             for sql in sqls:
                 c.execute(sql)
-                
+      
     def _get_crypto_password(self, pwd: str) -> str:
         byte = pwd.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(byte, salt)
         return hashed.decode('utf-8')
-    
-    def _check_password(self, pwd_inputed: str, hash_stored: str) -> bool:
-        byte_inputed = pwd_inputed.encode('utf-8')
-        byte_stored = hash_stored.encode('utf-8')
-        return bcrypt.checkpw(byte_inputed, byte_stored)
     
     def _get_id_type_user(self, type_user: str) -> int:
         with self.con as c:
@@ -184,8 +185,13 @@ class DAOControls:
             id_type_user = c.fetchone()
         if id_type_user is None:
             msg = f'Não existe tipo de usuário "{type_user}".'
-            raise DAOError(msg)
+            self._raise_log(msg)
         return id_type_user[0]
+            
+    def _raise_log(self, message_error: str, message_log: str='') -> None:
+        message_log = message_log if message_log else message_error
+        logging.error(f'DAOControls: {message_log}')
+        raise DAOError(message_error)
     
 @dataclass
 class DAODados:
@@ -253,3 +259,8 @@ class DAODados:
         with self.con as c:
             for sql in sqls:
                 c.execute(sql)
+            
+    def _raise_log(self, message_error: str, message_log: str='') -> None:
+        message_log = message_log if message_log else message_error
+        logging.error(f'DAODados: {message_log}')
+        raise DAOError(message_error)
