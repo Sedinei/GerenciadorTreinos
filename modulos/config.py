@@ -3,14 +3,14 @@ from dataclasses import dataclass
 
 @dataclass
 class Config:
-    pasta: str = ''
+    path: str = ''
     
     def __post_init__(self) -> None:
         with open('config', 'r') as f:
             config = json.loads(f.read())
-        self.pasta = config['pasta_dados']
+        self.path = config['data_path']
         
-    def salvar(self) -> None:
-        config = {'pasta_dados': self.pasta}
+    def save(self) -> None:
+        config = {'data_path': self.path}
         with open('config', 'w') as f:
             f.write(json.dumps(config))

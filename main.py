@@ -1,9 +1,7 @@
-from modulos.app import Gerenciador, GerenciadorError
+from modulos.app import Manager
 
 def main():
-    try:
-        app = Gerenciador()
-    except GerenciadorError as _:
-        return
+    Manager()
     
-main()
+if __name__ == '__main__':
+    main()
