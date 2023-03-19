@@ -15,11 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
-    QStackedWidget, QTabWidget, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDateEdit,
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
+    QSpacerItem, QStackedWidget, QTabWidget, QTextEdit,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from  . import resources_rc
 from  . import resources_rc
 from  . import resources_rc
 
@@ -229,23 +230,23 @@ class Ui_MainWindow(object):
         self.frame_7.setFrameShadow(QFrame.Raised)
         self.verticalLayout_7 = QVBoxLayout(self.frame_7)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.btn_incluir_gp_atleta = QPushButton(self.frame_7)
-        self.btn_incluir_gp_atleta.setObjectName(u"btn_incluir_gp_atleta")
-        sizePolicy.setHeightForWidth(self.btn_incluir_gp_atleta.sizePolicy().hasHeightForWidth())
-        self.btn_incluir_gp_atleta.setSizePolicy(sizePolicy)
-        self.btn_incluir_gp_atleta.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_incluir_gp_atleta.setStyleSheet(u"")
+        self.btn_incluir_gp_atletas = QPushButton(self.frame_7)
+        self.btn_incluir_gp_atletas.setObjectName(u"btn_incluir_gp_atletas")
+        sizePolicy.setHeightForWidth(self.btn_incluir_gp_atletas.sizePolicy().hasHeightForWidth())
+        self.btn_incluir_gp_atletas.setSizePolicy(sizePolicy)
+        self.btn_incluir_gp_atletas.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_incluir_gp_atletas.setStyleSheet(u"")
 
-        self.verticalLayout_7.addWidget(self.btn_incluir_gp_atleta)
+        self.verticalLayout_7.addWidget(self.btn_incluir_gp_atletas)
 
-        self.btn_alterar_gp_atleta = QPushButton(self.frame_7)
-        self.btn_alterar_gp_atleta.setObjectName(u"btn_alterar_gp_atleta")
-        sizePolicy.setHeightForWidth(self.btn_alterar_gp_atleta.sizePolicy().hasHeightForWidth())
-        self.btn_alterar_gp_atleta.setSizePolicy(sizePolicy)
-        self.btn_alterar_gp_atleta.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_alterar_gp_atleta.setStyleSheet(u"")
+        self.btn_alterar_gp_atletas = QPushButton(self.frame_7)
+        self.btn_alterar_gp_atletas.setObjectName(u"btn_alterar_gp_atletas")
+        sizePolicy.setHeightForWidth(self.btn_alterar_gp_atletas.sizePolicy().hasHeightForWidth())
+        self.btn_alterar_gp_atletas.setSizePolicy(sizePolicy)
+        self.btn_alterar_gp_atletas.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_alterar_gp_atletas.setStyleSheet(u"")
 
-        self.verticalLayout_7.addWidget(self.btn_alterar_gp_atleta)
+        self.verticalLayout_7.addWidget(self.btn_alterar_gp_atletas)
 
         self.btn_excluir_gp_atletas = QPushButton(self.frame_7)
         self.btn_excluir_gp_atletas.setObjectName(u"btn_excluir_gp_atletas")
@@ -526,17 +527,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.qtab_cadastro)
 
         self.pages.addWidget(self.pg_cadastro)
-        self.pg_cad_usuario = QWidget()
-        self.pg_cad_usuario.setObjectName(u"pg_cad_usuario")
-        self.verticalLayout_18 = QVBoxLayout(self.pg_cad_usuario)
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.verticalLayout_17 = QVBoxLayout()
+        self.pg_cad_alt_usuario = QWidget()
+        self.pg_cad_alt_usuario.setObjectName(u"pg_cad_alt_usuario")
+        self.verticalLayout_17 = QVBoxLayout(self.pg_cad_alt_usuario)
         self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.label_3 = QLabel(self.pg_cad_usuario)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font1)
+        self.verticalSpacer_32 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_17.addWidget(self.label_3)
+        self.verticalLayout_17.addItem(self.verticalSpacer_32)
+
+        self.lbl_titulo_pg_cad_alt_usuario = QLabel(self.pg_cad_alt_usuario)
+        self.lbl_titulo_pg_cad_alt_usuario.setObjectName(u"lbl_titulo_pg_cad_alt_usuario")
+        self.lbl_titulo_pg_cad_alt_usuario.setFont(font1)
+
+        self.verticalLayout_17.addWidget(self.lbl_titulo_pg_cad_alt_usuario)
 
         self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -548,7 +551,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_10.addItem(self.horizontalSpacer_10)
 
-        self.label_4 = QLabel(self.pg_cad_usuario)
+        self.label_4 = QLabel(self.pg_cad_alt_usuario)
         self.label_4.setObjectName(u"label_4")
         sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
         self.label_4.setSizePolicy(sizePolicy)
@@ -559,7 +562,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_10.addWidget(self.label_4)
 
-        self.txt_nome_usuario = QLineEdit(self.pg_cad_usuario)
+        self.txt_nome_usuario = QLineEdit(self.pg_cad_alt_usuario)
         self.txt_nome_usuario.setObjectName(u"txt_nome_usuario")
         self.txt_nome_usuario.setFont(font1)
         self.txt_nome_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -574,7 +577,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_17.addLayout(self.horizontalLayout_10)
 
-        self.verticalSpacer_14 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_14 = QSpacerItem(822, 1, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_17.addItem(self.verticalSpacer_14)
 
@@ -584,7 +587,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_11)
 
-        self.label_5 = QLabel(self.pg_cad_usuario)
+        self.label_5 = QLabel(self.pg_cad_alt_usuario)
         self.label_5.setObjectName(u"label_5")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -595,7 +598,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_11.addWidget(self.label_5)
 
-        self.txt_email_usuario = QLineEdit(self.pg_cad_usuario)
+        self.txt_email_usuario = QLineEdit(self.pg_cad_alt_usuario)
         self.txt_email_usuario.setObjectName(u"txt_email_usuario")
         self.txt_email_usuario.setFont(font1)
         self.txt_email_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -610,7 +613,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_17.addLayout(self.horizontalLayout_11)
 
-        self.verticalSpacer_15 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_15 = QSpacerItem(822, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_17.addItem(self.verticalSpacer_15)
 
@@ -620,16 +623,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_12)
 
-        self.label_8 = QLabel(self.pg_cad_usuario)
+        self.label_8 = QLabel(self.pg_cad_alt_usuario)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setFont(font2)
 
         self.horizontalLayout_12.addWidget(self.label_8)
 
-        self.box_tp_usuario = QComboBox(self.pg_cad_usuario)
-        self.box_tp_usuario.addItem("")
-        self.box_tp_usuario.addItem("")
-        self.box_tp_usuario.addItem("")
+        self.box_tp_usuario = QComboBox(self.pg_cad_alt_usuario)
         self.box_tp_usuario.setObjectName(u"box_tp_usuario")
         self.box_tp_usuario.setFont(font1)
         self.box_tp_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -643,7 +643,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_17.addLayout(self.horizontalLayout_12)
 
-        self.verticalSpacer_16 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_16 = QSpacerItem(822, 1, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_17.addItem(self.verticalSpacer_16)
 
@@ -653,7 +653,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addItem(self.horizontalSpacer_13)
 
-        self.label_6 = QLabel(self.pg_cad_usuario)
+        self.label_6 = QLabel(self.pg_cad_alt_usuario)
         self.label_6.setObjectName(u"label_6")
         sizePolicy1.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
         self.label_6.setSizePolicy(sizePolicy1)
@@ -661,7 +661,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.label_6)
 
-        self.txt_senha_usuario = QLineEdit(self.pg_cad_usuario)
+        self.txt_senha_usuario = QLineEdit(self.pg_cad_alt_usuario)
         self.txt_senha_usuario.setObjectName(u"txt_senha_usuario")
         self.txt_senha_usuario.setFont(font1)
         self.txt_senha_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -676,7 +676,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_17.addLayout(self.horizontalLayout_13)
 
-        self.verticalSpacer_17 = QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_17 = QSpacerItem(822, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_17.addItem(self.verticalSpacer_17)
 
@@ -686,7 +686,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addItem(self.horizontalSpacer_14)
 
-        self.label_7 = QLabel(self.pg_cad_usuario)
+        self.label_7 = QLabel(self.pg_cad_alt_usuario)
         self.label_7.setObjectName(u"label_7")
         sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
         self.label_7.setSizePolicy(sizePolicy1)
@@ -694,7 +694,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.label_7)
 
-        self.txt_confirma_senha_usuario = QLineEdit(self.pg_cad_usuario)
+        self.txt_confirma_senha_usuario = QLineEdit(self.pg_cad_alt_usuario)
         self.txt_confirma_senha_usuario.setObjectName(u"txt_confirma_senha_usuario")
         self.txt_confirma_senha_usuario.setFont(font1)
         self.txt_confirma_senha_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -719,214 +719,41 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_15.addItem(self.horizontalSpacer_3)
 
-        self.btn_salvar_usuario = QPushButton(self.pg_cad_usuario)
-        self.btn_salvar_usuario.setObjectName(u"btn_salvar_usuario")
-        self.btn_salvar_usuario.setFont(font1)
-        self.btn_salvar_usuario.setStyleSheet(u"")
+        self.btn_salvar_fechar_users = QPushButton(self.pg_cad_alt_usuario)
+        self.btn_salvar_fechar_users.setObjectName(u"btn_salvar_fechar_users")
+        self.btn_salvar_fechar_users.setFont(font1)
+        self.btn_salvar_fechar_users.setStyleSheet(u"")
 
-        self.horizontalLayout_15.addWidget(self.btn_salvar_usuario)
+        self.horizontalLayout_15.addWidget(self.btn_salvar_fechar_users)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.btn_salvar_manter_users = QPushButton(self.pg_cad_alt_usuario)
+        self.btn_salvar_manter_users.setObjectName(u"btn_salvar_manter_users")
 
-        self.horizontalLayout_15.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_15.addWidget(self.btn_salvar_manter_users)
+
+        self.btn_voltar_users = QPushButton(self.pg_cad_alt_usuario)
+        self.btn_voltar_users.setObjectName(u"btn_voltar_users")
+
+        self.horizontalLayout_15.addWidget(self.btn_voltar_users)
 
 
         self.verticalLayout_17.addLayout(self.horizontalLayout_15)
 
-        self.verticalSpacer_19 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_35 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_17.addItem(self.verticalSpacer_19)
+        self.verticalLayout_17.addItem(self.verticalSpacer_35)
 
-        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_17.addItem(self.verticalSpacer_12)
-
-        self.verticalSpacer_18 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_17.addItem(self.verticalSpacer_18)
-
-
-        self.verticalLayout_18.addLayout(self.verticalLayout_17)
-
-        self.pages.addWidget(self.pg_cad_usuario)
-        self.pg_alt_usuario = QWidget()
-        self.pg_alt_usuario.setObjectName(u"pg_alt_usuario")
-        self.verticalLayout_37 = QVBoxLayout(self.pg_alt_usuario)
-        self.verticalLayout_37.setObjectName(u"verticalLayout_37")
-        self.verticalLayout_36 = QVBoxLayout()
-        self.verticalLayout_36.setObjectName(u"verticalLayout_36")
-        self.label_23 = QLabel(self.pg_alt_usuario)
-        self.label_23.setObjectName(u"label_23")
-        self.label_23.setFont(font1)
-
-        self.verticalLayout_36.addWidget(self.label_23)
-
-        self.verticalSpacer_39 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_39)
-
-        self.horizontalLayout_30 = QHBoxLayout()
-        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
-        self.horizontalSpacer_29 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_30.addItem(self.horizontalSpacer_29)
-
-        self.label_24 = QLabel(self.pg_alt_usuario)
-        self.label_24.setObjectName(u"label_24")
-        sizePolicy.setHeightForWidth(self.label_24.sizePolicy().hasHeightForWidth())
-        self.label_24.setSizePolicy(sizePolicy)
-        self.label_24.setFont(font2)
-
-        self.horizontalLayout_30.addWidget(self.label_24)
-
-        self.txt_novo_nome_usuario = QLineEdit(self.pg_alt_usuario)
-        self.txt_novo_nome_usuario.setObjectName(u"txt_novo_nome_usuario")
-        self.txt_novo_nome_usuario.setFont(font1)
-        self.txt_novo_nome_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.txt_novo_nome_usuario.setInputMethodHints(Qt.ImhLatinOnly|Qt.ImhLowercaseOnly)
-
-        self.horizontalLayout_30.addWidget(self.txt_novo_nome_usuario)
-
-        self.horizontalSpacer_30 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_30.addItem(self.horizontalSpacer_30)
-
-
-        self.verticalLayout_36.addLayout(self.horizontalLayout_30)
-
-        self.verticalSpacer_40 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_40)
-
-        self.horizontalLayout_31 = QHBoxLayout()
-        self.horizontalLayout_31.setObjectName(u"horizontalLayout_31")
-        self.horizontalSpacer_31 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_31.addItem(self.horizontalSpacer_31)
-
-        self.label_25 = QLabel(self.pg_alt_usuario)
-        self.label_25.setObjectName(u"label_25")
-        sizePolicy1.setHeightForWidth(self.label_25.sizePolicy().hasHeightForWidth())
-        self.label_25.setSizePolicy(sizePolicy1)
-        self.label_25.setFont(font2)
-
-        self.horizontalLayout_31.addWidget(self.label_25)
-
-        self.txt_novo_email_usuario = QLineEdit(self.pg_alt_usuario)
-        self.txt_novo_email_usuario.setObjectName(u"txt_novo_email_usuario")
-        self.txt_novo_email_usuario.setFont(font1)
-        self.txt_novo_email_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.txt_novo_email_usuario.setInputMethodHints(Qt.ImhEmailCharactersOnly)
-
-        self.horizontalLayout_31.addWidget(self.txt_novo_email_usuario)
-
-        self.horizontalSpacer_32 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_31.addItem(self.horizontalSpacer_32)
-
-
-        self.verticalLayout_36.addLayout(self.horizontalLayout_31)
-
-        self.verticalSpacer_41 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_41)
-
-        self.horizontalLayout_32 = QHBoxLayout()
-        self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
-        self.horizontalSpacer_33 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_32.addItem(self.horizontalSpacer_33)
-
-        self.label_26 = QLabel(self.pg_alt_usuario)
-        self.label_26.setObjectName(u"label_26")
-        self.label_26.setFont(font2)
-
-        self.horizontalLayout_32.addWidget(self.label_26)
-
-        self.box_novo_tp_usuario = QComboBox(self.pg_alt_usuario)
-        self.box_novo_tp_usuario.addItem("")
-        self.box_novo_tp_usuario.addItem("")
-        self.box_novo_tp_usuario.addItem("")
-        self.box_novo_tp_usuario.setObjectName(u"box_novo_tp_usuario")
-        self.box_novo_tp_usuario.setFont(font1)
-        self.box_novo_tp_usuario.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-
-        self.horizontalLayout_32.addWidget(self.box_novo_tp_usuario)
-
-        self.horizontalSpacer_34 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_32.addItem(self.horizontalSpacer_34)
-
-
-        self.verticalLayout_36.addLayout(self.horizontalLayout_32)
-
-        self.verticalSpacer_44 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_44)
-
-        self.horizontalLayout_35 = QHBoxLayout()
-        self.horizontalLayout_35.setObjectName(u"horizontalLayout_35")
-        self.horizontalSpacer_39 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_35.addItem(self.horizontalSpacer_39)
-
-        self.btn_salvar_alterar_usuario = QPushButton(self.pg_alt_usuario)
-        self.btn_salvar_alterar_usuario.setObjectName(u"btn_salvar_alterar_usuario")
-        self.btn_salvar_alterar_usuario.setFont(font1)
-        self.btn_salvar_alterar_usuario.setStyleSheet(u"")
-
-        self.horizontalLayout_35.addWidget(self.btn_salvar_alterar_usuario)
-
-        self.horizontalSpacer_40 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_35.addItem(self.horizontalSpacer_40)
-
-
-        self.verticalLayout_36.addLayout(self.horizontalLayout_35)
-
-        self.verticalSpacer_45 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_45)
-
-        self.hd_id_user = QLabel(self.pg_alt_usuario)
-        self.hd_id_user.setObjectName(u"hd_id_user")
-        self.hd_id_user.setEnabled(True)
-
-        self.verticalLayout_36.addWidget(self.hd_id_user)
-
-        self.hd_txt_old_name_user = QLabel(self.pg_alt_usuario)
-        self.hd_txt_old_name_user.setObjectName(u"hd_txt_old_name_user")
-
-        self.verticalLayout_36.addWidget(self.hd_txt_old_name_user)
-
-        self.hd_txt_old_email_user = QLabel(self.pg_alt_usuario)
-        self.hd_txt_old_email_user.setObjectName(u"hd_txt_old_email_user")
-
-        self.verticalLayout_36.addWidget(self.hd_txt_old_email_user)
-
-        self.hd_txt_old_type_user = QLabel(self.pg_alt_usuario)
-        self.hd_txt_old_type_user.setObjectName(u"hd_txt_old_type_user")
-
-        self.verticalLayout_36.addWidget(self.hd_txt_old_type_user)
-
-        self.verticalSpacer_46 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_46)
-
-        self.verticalSpacer_47 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_36.addItem(self.verticalSpacer_47)
-
-
-        self.verticalLayout_37.addLayout(self.verticalLayout_36)
-
-        self.pages.addWidget(self.pg_alt_usuario)
+        self.pages.addWidget(self.pg_cad_alt_usuario)
         self.pg_alt_senha_usuario = QWidget()
         self.pg_alt_senha_usuario.setObjectName(u"pg_alt_senha_usuario")
         self.verticalLayout_60 = QVBoxLayout(self.pg_alt_senha_usuario)
         self.verticalLayout_60.setObjectName(u"verticalLayout_60")
         self.verticalLayout_59 = QVBoxLayout()
         self.verticalLayout_59.setObjectName(u"verticalLayout_59")
+        self.verticalSpacer_30 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_59.addItem(self.verticalSpacer_30)
+
         self.label_46 = QLabel(self.pg_alt_senha_usuario)
         self.label_46.setObjectName(u"label_46")
         self.label_46.setFont(font1)
@@ -1047,16 +874,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_61.addItem(self.horizontalSpacer_77)
 
-        self.btn_salvar_nova_senha_usuario = QPushButton(self.pg_alt_senha_usuario)
-        self.btn_salvar_nova_senha_usuario.setObjectName(u"btn_salvar_nova_senha_usuario")
-        self.btn_salvar_nova_senha_usuario.setFont(font1)
-        self.btn_salvar_nova_senha_usuario.setStyleSheet(u"")
+        self.btn_salvar_nova_senha_users = QPushButton(self.pg_alt_senha_usuario)
+        self.btn_salvar_nova_senha_users.setObjectName(u"btn_salvar_nova_senha_users")
+        self.btn_salvar_nova_senha_users.setFont(font1)
+        self.btn_salvar_nova_senha_users.setStyleSheet(u"")
 
-        self.horizontalLayout_61.addWidget(self.btn_salvar_nova_senha_usuario)
+        self.horizontalLayout_61.addWidget(self.btn_salvar_nova_senha_users)
 
-        self.horizontalSpacer_78 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.btn_voltar_nova_senha_users = QPushButton(self.pg_alt_senha_usuario)
+        self.btn_voltar_nova_senha_users.setObjectName(u"btn_voltar_nova_senha_users")
 
-        self.horizontalLayout_61.addItem(self.horizontalSpacer_78)
+        self.horizontalLayout_61.addWidget(self.btn_voltar_nova_senha_users)
 
 
         self.verticalLayout_59.addLayout(self.horizontalLayout_61)
@@ -1064,11 +892,6 @@ class Ui_MainWindow(object):
         self.verticalSpacer_85 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_59.addItem(self.verticalSpacer_85)
-
-        self.hd_id_user_new_pass = QLabel(self.pg_alt_senha_usuario)
-        self.hd_id_user_new_pass.setObjectName(u"hd_id_user_new_pass")
-
-        self.verticalLayout_59.addWidget(self.hd_id_user_new_pass)
 
         self.verticalSpacer_86 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -1082,6 +905,333 @@ class Ui_MainWindow(object):
         self.verticalLayout_60.addLayout(self.verticalLayout_59)
 
         self.pages.addWidget(self.pg_alt_senha_usuario)
+        self.pg_cad_alt_atleta = QWidget()
+        self.pg_cad_alt_atleta.setObjectName(u"pg_cad_alt_atleta")
+        self.verticalLayout_20 = QVBoxLayout(self.pg_cad_alt_atleta)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.verticalLayout_19 = QVBoxLayout()
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.verticalSpacer_29 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_29)
+
+        self.lbl_titulo_pg_cad_alt_atleta = QLabel(self.pg_cad_alt_atleta)
+        self.lbl_titulo_pg_cad_alt_atleta.setObjectName(u"lbl_titulo_pg_cad_alt_atleta")
+        self.lbl_titulo_pg_cad_alt_atleta.setFont(font1)
+
+        self.verticalLayout_19.addWidget(self.lbl_titulo_pg_cad_alt_atleta)
+
+        self.verticalSpacer_20 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_20)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_15)
+
+        self.label_13 = QLabel(self.pg_cad_alt_atleta)
+        self.label_13.setObjectName(u"label_13")
+        sizePolicy.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
+        self.label_13.setSizePolicy(sizePolicy)
+        self.label_13.setFont(font2)
+
+        self.horizontalLayout_16.addWidget(self.label_13)
+
+        self.txt_nome_atleta = QLineEdit(self.pg_cad_alt_atleta)
+        self.txt_nome_atleta.setObjectName(u"txt_nome_atleta")
+        self.txt_nome_atleta.setMinimumSize(QSize(450, 0))
+        self.txt_nome_atleta.setFont(font1)
+        self.txt_nome_atleta.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.txt_nome_atleta.setInputMethodHints(Qt.ImhLatinOnly|Qt.ImhLowercaseOnly)
+
+        self.horizontalLayout_16.addWidget(self.txt_nome_atleta)
+
+        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_16)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_16)
+
+        self.verticalSpacer_21 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_21)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalSpacer_17 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_17.addItem(self.horizontalSpacer_17)
+
+        self.label_14 = QLabel(self.pg_cad_alt_atleta)
+        self.label_14.setObjectName(u"label_14")
+        sizePolicy1.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
+        self.label_14.setSizePolicy(sizePolicy1)
+        self.label_14.setFont(font2)
+
+        self.horizontalLayout_17.addWidget(self.label_14)
+
+        self.dt_nascimento = QDateEdit(self.pg_cad_alt_atleta)
+        self.dt_nascimento.setObjectName(u"dt_nascimento")
+
+        self.horizontalLayout_17.addWidget(self.dt_nascimento)
+
+        self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_17.addItem(self.horizontalSpacer_18)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_17)
+
+        self.verticalSpacer_22 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_22)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.horizontalSpacer_19 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_18.addItem(self.horizontalSpacer_19)
+
+        self.label_15 = QLabel(self.pg_cad_alt_atleta)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setFont(font2)
+
+        self.horizontalLayout_18.addWidget(self.label_15)
+
+        self.box_gp_atleta = QComboBox(self.pg_cad_alt_atleta)
+        self.box_gp_atleta.setObjectName(u"box_gp_atleta")
+        self.box_gp_atleta.setMinimumSize(QSize(300, 0))
+        self.box_gp_atleta.setFont(font1)
+        self.box_gp_atleta.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+
+        self.horizontalLayout_18.addWidget(self.box_gp_atleta)
+
+        self.btn_cad_alt_atleta_incluir_grupo = QPushButton(self.pg_cad_alt_atleta)
+        self.btn_cad_alt_atleta_incluir_grupo.setObjectName(u"btn_cad_alt_atleta_incluir_grupo")
+
+        self.horizontalLayout_18.addWidget(self.btn_cad_alt_atleta_incluir_grupo)
+
+        self.horizontalSpacer_20 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_18.addItem(self.horizontalSpacer_20)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_18)
+
+        self.verticalSpacer_23 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_23)
+
+        self.horizontalLayout_19 = QHBoxLayout()
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.horizontalSpacer_21 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_19.addItem(self.horizontalSpacer_21)
+
+        self.label_16 = QLabel(self.pg_cad_alt_atleta)
+        self.label_16.setObjectName(u"label_16")
+        sizePolicy1.setHeightForWidth(self.label_16.sizePolicy().hasHeightForWidth())
+        self.label_16.setSizePolicy(sizePolicy1)
+        self.label_16.setFont(font2)
+
+        self.horizontalLayout_19.addWidget(self.label_16)
+
+        self.dt_inicio = QDateEdit(self.pg_cad_alt_atleta)
+        self.dt_inicio.setObjectName(u"dt_inicio")
+
+        self.horizontalLayout_19.addWidget(self.dt_inicio)
+
+        self.horizontalSpacer_22 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_19.addItem(self.horizontalSpacer_22)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_19)
+
+        self.verticalSpacer_24 = QSpacerItem(10, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_24)
+
+        self.horizontalLayout_20 = QHBoxLayout()
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalSpacer_23 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_20.addItem(self.horizontalSpacer_23)
+
+        self.lbl_fim_vinculo = QLabel(self.pg_cad_alt_atleta)
+        self.lbl_fim_vinculo.setObjectName(u"lbl_fim_vinculo")
+        self.lbl_fim_vinculo.setFont(font2)
+
+        self.horizontalLayout_20.addWidget(self.lbl_fim_vinculo)
+
+        self.dt_fim = QDateEdit(self.pg_cad_alt_atleta)
+        self.dt_fim.setObjectName(u"dt_fim")
+
+        self.horizontalLayout_20.addWidget(self.dt_fim)
+
+        self.horizontalSpacer_24 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_20.addItem(self.horizontalSpacer_24)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_20)
+
+        self.verticalSpacer_25 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_25)
+
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalSpacer_25 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_21.addItem(self.horizontalSpacer_25)
+
+        self.btn_salvar_fechar_athletes = QPushButton(self.pg_cad_alt_atleta)
+        self.btn_salvar_fechar_athletes.setObjectName(u"btn_salvar_fechar_athletes")
+        self.btn_salvar_fechar_athletes.setFont(font1)
+        self.btn_salvar_fechar_athletes.setStyleSheet(u"")
+
+        self.horizontalLayout_21.addWidget(self.btn_salvar_fechar_athletes)
+
+        self.btn_salvar_manter_athletes = QPushButton(self.pg_cad_alt_atleta)
+        self.btn_salvar_manter_athletes.setObjectName(u"btn_salvar_manter_athletes")
+
+        self.horizontalLayout_21.addWidget(self.btn_salvar_manter_athletes)
+
+        self.btn_voltar_athletes = QPushButton(self.pg_cad_alt_atleta)
+        self.btn_voltar_athletes.setObjectName(u"btn_voltar_athletes")
+
+        self.horizontalLayout_21.addWidget(self.btn_voltar_athletes)
+
+
+        self.verticalLayout_19.addLayout(self.horizontalLayout_21)
+
+        self.verticalSpacer_26 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_26)
+
+        self.verticalSpacer_27 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_27)
+
+        self.verticalSpacer_28 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_19.addItem(self.verticalSpacer_28)
+
+
+        self.verticalLayout_20.addLayout(self.verticalLayout_19)
+
+        self.pages.addWidget(self.pg_cad_alt_atleta)
+        self.pg_dominio = QWidget()
+        self.pg_dominio.setObjectName(u"pg_dominio")
+        self.verticalLayout_21 = QVBoxLayout(self.pg_dominio)
+        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.verticalSpacer_31 = QSpacerItem(20, 12, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_21.addItem(self.verticalSpacer_31)
+
+        self.lbl_titulo_pg_cad_alt_dominio = QLabel(self.pg_dominio)
+        self.lbl_titulo_pg_cad_alt_dominio.setObjectName(u"lbl_titulo_pg_cad_alt_dominio")
+        self.lbl_titulo_pg_cad_alt_dominio.setFont(font1)
+
+        self.verticalLayout_21.addWidget(self.lbl_titulo_pg_cad_alt_dominio)
+
+        self.verticalSpacer_19 = QSpacerItem(20, 13, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_21.addItem(self.verticalSpacer_19)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.label_19 = QLabel(self.pg_dominio)
+        self.label_19.setObjectName(u"label_19")
+        sizePolicy.setHeightForWidth(self.label_19.sizePolicy().hasHeightForWidth())
+        self.label_19.setSizePolicy(sizePolicy)
+        self.label_19.setFont(font2)
+
+        self.horizontalLayout_22.addWidget(self.label_19)
+
+        self.txt_nome_dominio = QLineEdit(self.pg_dominio)
+        self.txt_nome_dominio.setObjectName(u"txt_nome_dominio")
+        self.txt_nome_dominio.setMinimumSize(QSize(450, 0))
+        self.txt_nome_dominio.setFont(font1)
+        self.txt_nome_dominio.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.txt_nome_dominio.setInputMethodHints(Qt.ImhLatinOnly|Qt.ImhLowercaseOnly)
+
+        self.horizontalLayout_22.addWidget(self.txt_nome_dominio)
+
+
+        self.verticalLayout_21.addLayout(self.horizontalLayout_22)
+
+        self.verticalSpacer_18 = QSpacerItem(20, 13, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_21.addItem(self.verticalSpacer_18)
+
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.verticalLayout_18 = QVBoxLayout()
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.label_18 = QLabel(self.pg_dominio)
+        self.label_18.setObjectName(u"label_18")
+        sizePolicy.setHeightForWidth(self.label_18.sizePolicy().hasHeightForWidth())
+        self.label_18.setSizePolicy(sizePolicy)
+        self.label_18.setFont(font2)
+
+        self.verticalLayout_18.addWidget(self.label_18)
+
+        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_18.addItem(self.verticalSpacer_12)
+
+
+        self.horizontalLayout_23.addLayout(self.verticalLayout_18)
+
+        self.txt_descricao_dominio = QTextEdit(self.pg_dominio)
+        self.txt_descricao_dominio.setObjectName(u"txt_descricao_dominio")
+        self.txt_descricao_dominio.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+
+        self.horizontalLayout_23.addWidget(self.txt_descricao_dominio)
+
+
+        self.verticalLayout_21.addLayout(self.horizontalLayout_23)
+
+        self.verticalSpacer_33 = QSpacerItem(20, 12, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_21.addItem(self.verticalSpacer_33)
+
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.horizontalSpacer_27 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_24.addItem(self.horizontalSpacer_27)
+
+        self.btn_salvar_manter_domains = QPushButton(self.pg_dominio)
+        self.btn_salvar_manter_domains.setObjectName(u"btn_salvar_manter_domains")
+        self.btn_salvar_manter_domains.setFont(font1)
+        self.btn_salvar_manter_domains.setStyleSheet(u"")
+
+        self.horizontalLayout_24.addWidget(self.btn_salvar_manter_domains)
+
+        self.btn_salvar_fechar_domains = QPushButton(self.pg_dominio)
+        self.btn_salvar_fechar_domains.setObjectName(u"btn_salvar_fechar_domains")
+
+        self.horizontalLayout_24.addWidget(self.btn_salvar_fechar_domains)
+
+        self.btn_voltar_domains = QPushButton(self.pg_dominio)
+        self.btn_voltar_domains.setObjectName(u"btn_voltar_domains")
+
+        self.horizontalLayout_24.addWidget(self.btn_voltar_domains)
+
+
+        self.verticalLayout_21.addLayout(self.horizontalLayout_24)
+
+        self.verticalSpacer_34 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_21.addItem(self.verticalSpacer_34)
+
+        self.pages.addWidget(self.pg_dominio)
         self.pg_registro = QWidget()
         self.pg_registro.setObjectName(u"pg_registro")
         self.label_9 = QLabel(self.pg_registro)
@@ -1108,7 +1258,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.pages.setCurrentIndex(1)
-        self.qtab_cadastro.setCurrentIndex(0)
+        self.qtab_cadastro.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1124,6 +1274,8 @@ class Ui_MainWindow(object):
         self.label.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:36pt; font-weight:700;\">Gerenciador de Treinos</span></p></body></html>", None))
         ___qtreewidgetitem = self.tbl_atletas.headerItem()
+        ___qtreewidgetitem.setText(5, QCoreApplication.translate("MainWindow", u"Fim", None));
+        ___qtreewidgetitem.setText(4, QCoreApplication.translate("MainWindow", u"In\u00edcio", None));
         ___qtreewidgetitem.setText(3, QCoreApplication.translate("MainWindow", u"Grupo", None));
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("MainWindow", u"Data nascimento", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("MainWindow", u"Nome", None));
@@ -1136,8 +1288,8 @@ class Ui_MainWindow(object):
         ___qtreewidgetitem1.setText(2, QCoreApplication.translate("MainWindow", u"Descri\u00e7\u00e3o", None));
         ___qtreewidgetitem1.setText(1, QCoreApplication.translate("MainWindow", u"Nome", None));
         ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"id", None));
-        self.btn_incluir_gp_atleta.setText(QCoreApplication.translate("MainWindow", u"Incluir", None))
-        self.btn_alterar_gp_atleta.setText(QCoreApplication.translate("MainWindow", u"Alterar", None))
+        self.btn_incluir_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Incluir", None))
+        self.btn_alterar_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Alterar", None))
         self.btn_excluir_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
         self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_gp_atletas), QCoreApplication.translate("MainWindow", u"Grupos Atletas", None))
         ___qtreewidgetitem2 = self.tbl_tp_dispensa.headerItem()
@@ -1173,36 +1325,19 @@ class Ui_MainWindow(object):
         self.btn_excluir_usuarios.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
         self.btn_trocar_senha_usuario.setText(QCoreApplication.translate("MainWindow", u"Trocar senha", None))
         self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_usuarios), QCoreApplication.translate("MainWindow", u"Usu\u00e1rios", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">Cadastro de usu\u00e1rio</span></p></body></html>", None))
+        self.lbl_titulo_pg_cad_alt_usuario.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">T\u00edtulo Usu\u00e1rios</span></p></body></html>", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Nome: ", None))
         self.txt_nome_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o nome de usu\u00e1rio", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"e-mail: ", None))
         self.txt_email_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o e-mail de restaura\u00e7\u00e3o de senha", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Perfil: ", None))
-        self.box_tp_usuario.setItemText(0, QCoreApplication.translate("MainWindow", u"Gerenciador", None))
-        self.box_tp_usuario.setItemText(1, QCoreApplication.translate("MainWindow", u"Registrador", None))
-        self.box_tp_usuario.setItemText(2, QCoreApplication.translate("MainWindow", u"Leitor", None))
-
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Senha: ", None))
         self.txt_senha_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite a senha de acesso", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Senha: ", None))
         self.txt_confirma_senha_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Repita a senha de acesso", None))
-        self.btn_salvar_usuario.setText(QCoreApplication.translate("MainWindow", u"SALVAR", None))
-        self.label_23.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">Cadastro de usu\u00e1rio</span></p></body></html>", None))
-        self.label_24.setText(QCoreApplication.translate("MainWindow", u"Nome: ", None))
-        self.txt_novo_nome_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o nome de usu\u00e1rio", None))
-        self.label_25.setText(QCoreApplication.translate("MainWindow", u"e-mail: ", None))
-        self.txt_novo_email_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o e-mail de restaura\u00e7\u00e3o de senha", None))
-        self.label_26.setText(QCoreApplication.translate("MainWindow", u"Perfil: ", None))
-        self.box_novo_tp_usuario.setItemText(0, QCoreApplication.translate("MainWindow", u"Gerenciador", None))
-        self.box_novo_tp_usuario.setItemText(1, QCoreApplication.translate("MainWindow", u"Registrador", None))
-        self.box_novo_tp_usuario.setItemText(2, QCoreApplication.translate("MainWindow", u"Leitor", None))
-
-        self.btn_salvar_alterar_usuario.setText(QCoreApplication.translate("MainWindow", u"ALTERAR", None))
-        self.hd_id_user.setText(QCoreApplication.translate("MainWindow", u"id_user", None))
-        self.hd_txt_old_name_user.setText(QCoreApplication.translate("MainWindow", u"txt_old_name_user", None))
-        self.hd_txt_old_email_user.setText(QCoreApplication.translate("MainWindow", u"txt_old_email_user", None))
-        self.hd_txt_old_type_user.setText(QCoreApplication.translate("MainWindow", u"txt_old_type_user", None))
+        self.btn_salvar_fechar_users.setText(QCoreApplication.translate("MainWindow", u"Salvar e fechar", None))
+        self.btn_salvar_manter_users.setText(QCoreApplication.translate("MainWindow", u"Salvar e manter", None))
+        self.btn_voltar_users.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
         self.label_46.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">Alterar senha de usu\u00e1rio</span></p></body></html>", None))
         self.label_47.setText(QCoreApplication.translate("MainWindow", u"Nome: ", None))
         self.txt_nome_usuario_nova_senha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o nome de usu\u00e1rio", None))
@@ -1210,8 +1345,27 @@ class Ui_MainWindow(object):
         self.txt_nova_senha_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite a senha de acesso", None))
         self.label_51.setText(QCoreApplication.translate("MainWindow", u"Senha: ", None))
         self.txt_confirma_nova_senha_usuario.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Repita a senha de acesso", None))
-        self.btn_salvar_nova_senha_usuario.setText(QCoreApplication.translate("MainWindow", u"ALTERAR", None))
-        self.hd_id_user_new_pass.setText(QCoreApplication.translate("MainWindow", u"id_user", None))
+        self.btn_salvar_nova_senha_users.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
+        self.btn_voltar_nova_senha_users.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
+        self.lbl_titulo_pg_cad_alt_atleta.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">T\u00edtulo Atletas</span></p></body></html>", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Nome: ", None))
+        self.txt_nome_atleta.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o nome do atleta", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Data de nascimento: ", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"Grupo: ", None))
+        self.btn_cad_alt_atleta_incluir_grupo.setText(QCoreApplication.translate("MainWindow", u"Incluir grupo", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"Data de in\u00edcio de v\u00ednculo: ", None))
+        self.lbl_fim_vinculo.setText(QCoreApplication.translate("MainWindow", u"Data de fim de v\u00ednculo: ", None))
+        self.btn_salvar_fechar_athletes.setText(QCoreApplication.translate("MainWindow", u"Salvar e fechar", None))
+        self.btn_salvar_manter_athletes.setText(QCoreApplication.translate("MainWindow", u"Salvar e manter", None))
+        self.btn_voltar_athletes.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
+        self.lbl_titulo_pg_cad_alt_dominio.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:20pt; font-weight:700;\">T\u00edtulo Dom\u00ednio</span></p></body></html>", None))
+        self.label_19.setText(QCoreApplication.translate("MainWindow", u"Nome: ", None))
+        self.txt_nome_dominio.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Digite o nome do dom\u00ednio", None))
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"Descri\u00e7\u00e3o: ", None))
+        self.txt_descricao_dominio.setPlaceholderText("")
+        self.btn_salvar_manter_domains.setText(QCoreApplication.translate("MainWindow", u"Salvar e manter", None))
+        self.btn_salvar_fechar_domains.setText(QCoreApplication.translate("MainWindow", u"Salvar e fechar", None))
+        self.btn_voltar_domains.setText(QCoreApplication.translate("MainWindow", u"Voltar", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:26pt;\">P\u00e1gina de registro</span></p></body></html>", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:26pt;\">P\u00e1gina de relat\u00f3rios</span></p></body></html>", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:26pt;\">P\u00e1gina da conta</span></p></body></html>", None))

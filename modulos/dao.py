@@ -1,6 +1,7 @@
 from typing import Tuple, List
 import logging
 from dataclasses import dataclass, field
+from .utils import singleton, raise_log
 import os
 import bcrypt
 import sqlite3
@@ -27,6 +28,7 @@ class ConnetionDB:
 @dataclass
 class DAOControls:
     path: str
+    types_user: List[str]
     con: ConnetionDB = field(init=False)
     file: str = field(init=False)
     
@@ -59,7 +61,7 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                self._raise_log(e.args[0])
+                raise_log(DAOError, e.args[0])
      
     def check_password(self, user: str, password: str) -> Tuple[int, bool]:
         with self.con as c:
@@ -110,7 +112,7 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                self._raise_log(e.args[0])
+                raise_log(DAOError, e.args[0])
     
     def save_password_user(self, id_user: int, password: str) -> None:
         hassed_pass = self._get_crypto_password(password)
@@ -120,7 +122,7 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                self._raise_log(e.args[0])
+                raise_log(DAOError, e.args[0])
    
     def save_user(self, user: str, email: str, type_user: str, password: str) -> None:
         id_tp_user = self._get_id_type_user(type_user)
@@ -131,7 +133,7 @@ class DAOControls:
             try:
                 c.execute(sql, t)
             except DBError as e:
-                self._raise_log(e.args[0])
+                raise_log(DAOError, e.args[0])
                   
     def _check_password(self, pwd_inputed: str, hash_stored: str) -> bool:
         byte_inputed = pwd_inputed.encode('utf-8')
@@ -154,20 +156,19 @@ class DAOControls:
                     id_tp_usuario INTEGER NOT NULL,
                     senha_usuario TEXT NOT NULL,
                     FOREIGN KEY(id_tp_usuario)
-                    REFERENCES tiposUsuario(id_tp_usuario))''',
-                '''INSERT INTO tipos_usuario VALUES
-                   (1, "Gerenciador"),
-                   (2, "Registrador"),
-                   (3, "Leitor")''',
-                f'''INSERT INTO usuarios VALUES(
-                    NULL,
-                    "{user_adm_default}",
-                    "sem_email",
-                    1,
-                    "{pwd_adm_default}")''']
+                    REFERENCES tipos_usuario(id_tp_usuario))''']
         with self.con as c:
             for sql in sqls:
                 c.execute(sql)
+            c.execute(f'''INSERT INTO usuarios VALUES(
+                          NULL,
+                          "{user_adm_default}",
+                          "sem_email",
+                          1,
+                          "{pwd_adm_default}")''')
+            for i, type_user in enumerate(self.types_user):
+                c.execute(f'''INSERT INTO tipos_usuario
+                              VALUES ({i+1}, "{type_user}")''')
       
     def _get_crypto_password(self, pwd: str) -> str:
         byte = pwd.encode('utf-8')
@@ -185,82 +186,185 @@ class DAOControls:
             id_type_user = c.fetchone()
         if id_type_user is None:
             msg = f'Não existe tipo de usuário "{type_user}".'
-            self._raise_log(msg)
+            raise_log(DAOError, msg)
         return id_type_user[0]
-            
-    def _raise_log(self, message_error: str, message_log: str='') -> None:
-        message_log = message_log if message_log else message_error
-        logging.error(f'DAOControls: {message_log}')
-        raise DAOError(message_error)
     
+
+@singleton
 @dataclass
 class DAODados:
-    file: str
+    path: str
     con: ConnetionDB = field(init=False)
+    file: str = field(init=False)
     
     def __post_init__(self) -> None:
+        ok = True
+        self.file = os.path.join(self.path, 'data')
+        if not os.path.isfile(self.file): ok = False
         self.con = ConnetionDB(self.file)
+        if not ok: self._create_tables()
+
+    def change_domain(self, table: str, suffix: str, id_domain: int,
+                       name_domain: str, description_domain: str) -> None:
+        fields = []
+        t = []
+        if name_domain:
+            fields.append(f'nome_{suffix}=?')
+            t.append(name_domain)
+        if description_domain:
+            fields.append(f'descricao_{suffix}=?')
+            t.append(description_domain)
+        sql = f'UPDATE {table} SET {",".join(fields)} WHERE id_{suffix}=?;'
+        t.append(id_domain)
+        with self.con as c:
+            try:
+                c.execute(sql, t)
+            except DBError as e:
+                raise_log(DAOError, e.args[0])
+    
+    def get_all_athletes(self) -> List[Tuple[int, str, str, str, str, str]]:
+        with self.con as c:
+            c.execute('''SELECT
+                             t1.id_atleta
+                            ,t1.nome_atleta
+                            ,t1.dt_nasc_atleta
+                            ,t2.nome_gp_atletas
+                            ,t1.dt_inicio_atleta
+                            ,t1.dt_fim_atleta
+                        FROM atleta AS t1
+                        LEFT JOIN grupo_atletas AS t2
+                        ON t1.id_gp_atletas=t2.id_gp_atletas''')
+            athletes = c.fetchall()
+            return athletes
+    
+    def get_all_coaches(self) -> List[Tuple[int, str]]:
+        with self.con as c:
+            c.execute('''SELECT
+                             id_treinador
+                            ,nome_treinador
+                            ,dt_inicio_treinador
+                            ,dt_fim_treinador
+                        FROM treinador''')
+            return c.fetchall()
+                
+    def get_all_domain(self, table: str, suffix: str) -> List[Tuple[int, str, str]]:
+        with self.con as c:
+            c.execute(f'''SELECT
+                            id_{suffix},
+                            nome_{suffix},
+                            descricao_{suffix}
+                        FROM {table}
+                        WHERE arquivado_{suffix}=FALSE''')
+            return c.fetchall()
+    
+    def get_groups(self) -> List[str]:
+        with self.con as c:
+            c.execute('''SELECT nome_gp_atletas
+                         FROM grupo_atletas
+                         WHERE arquivado_gp_atletas=TRUE''')
+            groups = c.fetchall()
+            return [group[0] for group in groups]
         
-    def start_db(self) -> None:
+    def insert_athlete(self, name: str, dt_born: str, group: str, dt_start: str) -> None:
+        with self.con as c:
+            t = (group, )
+            sql = '''SELECT id_gp_atletas
+                     FROM grupo_atletas
+                     WHERE nome_gp_atletas=?'''
+            c.execute(sql, t)
+            id_group = c.fetchone()[0]
+            t = (name, dt_born, id_group, dt_start)
+            sql = '''INSERT INTO atleta
+                     VALUES (NULL, ?, ?, ?, ?, NULL)'''
+            c.execute(sql, t)
+    
+    def is_unique(self, table: str, suffix: str, name_domain: str) -> bool:
+        sql = f'SELECT COUNT(*) FROM {table} WHERE nome_{suffix}=?'
+        t = (name_domain,)
+        with self.con as c:
+            c.execute(sql, t)
+            return c.fetchone()[0] == 0
+    
+    def remove_domain(self, table: str, suffix: str, id_domain: int) -> None:
+        t = (id_domain,)
+        sql = f'DELETE FROM {table} WHERE id_{suffix}=?'
+        with self.con as c:
+            try:
+                c.execute(sql, t)
+            except DBError as e:
+                raise_log(DAOError, e.args[0])
+    
+    def save_domain(self, table: str, name: str, description: str) -> None:
+        t = (name, description)
+        sql = f'INSERT INTO {table} VALUES (NULL, ?, ?, FALSE)'
+        with self.con as c:
+            try:
+                c.execute(sql, t)
+            except DBError as e:
+                raise_log(DAOError, e.args[0])
+     
+    def _create_tables(self) -> None:
         sqls = ['''CREATE TABLE tipo_treino (
                     id_tp_treino INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_tp_treino TEXT UNIQUE NOT NULL,
+                    descricao_tp_treino TEXT NOT NULL,
                     arquivado_tp_treino BOOLEAN)''',
                 '''CREATE TABLE treinador (
                     id_treinador INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_treinador TEXT UNIQUE NOT NULL,
-                    arquivado_treindor BOOLEAN)''',
-                '''CREATE TABLE grupo_atleta (
-                    id_gp_atleta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    nome_gp_atleta TEXT UNIQUE NOT NULL,
-                    arquivado_gp_atleta BOOLEAN)''',
+                    dt_inicio_treinador TEXT NOT NULL,
+                    dt_fim_treinador TEXT,
+                    arquivado_treinador BOOLEAN)''',
+                '''CREATE TABLE grupo_atletas (
+                    id_gp_atletas INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    nome_gp_atletas TEXT UNIQUE NOT NULL,
+                    descricao_gp_atletas TEXT NOT NULL,
+                    arquivado_gp_atletas BOOLEAN)''',
                 '''CREATE TABLE tipo_dispensa (
                     id_tp_dispensa INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_tp_dispensa TEXT UNIQUE NOT NULL,
+                    descricao_tp_dispensa TEXT NOT NULL,
                     arquivado_tp_dispensa BOOLEAN)''',
                 '''CREATE TABLE atleta (
                     id_atleta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_atleta TEXT UNIQUE NOT NULL,
-                    dt_nasc_atleta DATE NOT NULL,
-                    id_gp_atleta INTEGER NOT NULL,
-                    FOREING KEY(id_gp_atleta)
-                    REFERENCES grupo_atleta(id_gp_atleta))''',
+                    dt_nasc_atleta TEXT NOT NULL,
+                    id_gp_atletas INTEGER NOT NULL,
+                    dt_inicio_atleta TEXT NOT NULL,
+                    dt_fim_atleta TEXT,
+                    FOREIGN KEY(id_gp_atletas)
+                    REFERENCES grupo_atletas(id_gp_atletas))''',
                 '''CREATE TABLE dispensa (
                     id_tp_dispensa INTEGER NOT NULL,
                     id_atleta INTEGER NOT NULL,
-                    dt_dispensa DATE NOT NULL,
-                    tempo FLOAT NOT NULL,
+                    dt_dispensa TEXT NOT NULL,
+                    minutos INTEGER NOT NULL,
                     PRIMARY KEY (id_tp_dispensa,
                                  id_atleta,
                                  dt_dispensa),
-                    FOREING KEY(id_tp_dispensa)
+                    FOREIGN KEY(id_tp_dispensa)
                     REFERENCES tipo_dispensa(id_tp_dispensa),
-                    FOREING KEY(id_atleta)
+                    FOREIGN KEY(id_atleta)
                     REFERENCES atleta(id_atleta))''',
                 '''CREATE TABLE treino (
                     id_treino INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     id_treinador INTEGER NOT NULL,
                     id_tp_treino INTEGER NOT NULL,
-                    tempo FLOAT NOT NULL,
-                    FOREING KEY(id_treinador)
+                    minutos INTEGER NOT NULL,
+                    FOREIGN KEY(id_treinador)
                     REFERENCES treinador(id_treinador),
-                    FOREING KEY(id_tp_treino)
+                    FOREIGN KEY(id_tp_treino)
                     REFERENCES tipo_treino(id_tp_treino))''',
                 '''CREATE TABLE treino_atleta (
                     id_treino INTEGER NOT NULL,
                     id_atleta INTEGER NOT NULL,
-                    tempo FLOAT NOT NULL,
+                    minutos INTEGER NOT NULL,
                     PRIMARY KEY (id_treino,
                                  id_atleta),
-                    FOREING KEY(id_treino)
+                    FOREIGN KEY(id_treino)
                     REFERENCES treino(id_treino),
-                    FOREING KEY(id_atleta)
+                    FOREIGN KEY(id_atleta)
                     REFERENCES atleta(id_atleta))''']
         with self.con as c:
             for sql in sqls:
                 c.execute(sql)
-            
-    def _raise_log(self, message_error: str, message_log: str='') -> None:
-        message_log = message_log if message_log else message_error
-        logging.error(f'DAODados: {message_log}')
-        raise DAOError(message_error)

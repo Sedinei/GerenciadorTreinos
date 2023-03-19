@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'get_pasta.ui'
+## Form generated from reading UI file 'get_information.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.2
 ##
@@ -20,20 +20,20 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout,
     QSpacerItem, QVBoxLayout, QWidget)
 from  . import resources_rc
 
-class Ui_get_pasta(object):
-    def setupUi(self, get_pasta):
-        if not get_pasta.objectName():
-            get_pasta.setObjectName(u"get_pasta")
-        get_pasta.resize(650, 150)
-        get_pasta.setMinimumSize(QSize(650, 150))
-        get_pasta.setMaximumSize(QSize(650, 150))
+class Ui_get_information(object):
+    def setupUi(self, get_information):
+        if not get_information.objectName():
+            get_information.setObjectName(u"get_information")
+        get_information.resize(650, 150)
+        get_information.setMinimumSize(QSize(650, 150))
+        get_information.setMaximumSize(QSize(650, 150))
         icon = QIcon()
         icon.addFile(u":/images/cronometro.ico", QSize(), QIcon.Normal, QIcon.Off)
-        get_pasta.setWindowIcon(icon)
-        get_pasta.setStyleSheet(u"background-color: rgb(255, 203, 70);")
-        self.verticalLayout = QVBoxLayout(get_pasta)
+        get_information.setWindowIcon(icon)
+        get_information.setStyleSheet(u"background-color: rgb(255, 203, 70);")
+        self.verticalLayout = QVBoxLayout(get_information)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.frame = QFrame(get_pasta)
+        self.frame = QFrame(get_information)
         self.frame.setObjectName(u"frame")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
@@ -44,22 +44,16 @@ class Ui_get_pasta(object):
 
         self.horizontalLayout.addWidget(self.label)
 
-        self.pasta = QLineEdit(self.frame)
-        self.pasta.setObjectName(u"pasta")
-        self.pasta.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.texto = QLineEdit(self.frame)
+        self.texto.setObjectName(u"texto")
+        self.texto.setStyleSheet(u"background-color: rgb(255, 255, 255);")
 
-        self.horizontalLayout.addWidget(self.pasta)
-
-        self.btn_procurar = QPushButton(self.frame)
-        self.btn_procurar.setObjectName(u"btn_procurar")
-        self.btn_procurar.setStyleSheet(u"background-color: rgb(218, 218, 218);")
-
-        self.horizontalLayout.addWidget(self.btn_procurar)
+        self.horizontalLayout.addWidget(self.texto)
 
 
         self.verticalLayout.addWidget(self.frame)
 
-        self.frame_2 = QFrame(get_pasta)
+        self.frame_2 = QFrame(get_information)
         self.frame_2.setObjectName(u"frame_2")
         self.frame_2.setFrameShape(QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QFrame.Raised)
@@ -90,17 +84,16 @@ class Ui_get_pasta(object):
         self.verticalLayout.addWidget(self.frame_2)
 
 
-        self.retranslateUi(get_pasta)
+        self.retranslateUi(get_information)
 
-        QMetaObject.connectSlotsByName(get_pasta)
+        QMetaObject.connectSlotsByName(get_information)
     # setupUi
 
-    def retranslateUi(self, get_pasta):
-        get_pasta.setWindowTitle(QCoreApplication.translate("get_pasta", u"Pasta de trabalho", None))
-        self.label.setText(QCoreApplication.translate("get_pasta", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">Informe a pasta de trabalho: </span></p></body></html>", None))
-        self.btn_procurar.setText(QCoreApplication.translate("get_pasta", u"Procurar...", None))
+    def retranslateUi(self, get_information):
+        get_information.setWindowTitle(QCoreApplication.translate("get_information", u"Pasta de trabalho", None))
+        self.label.setText(QCoreApplication.translate("get_information", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">Informe o solicitado: </span></p></body></html>", None))
         self.resposta.setText("")
-        self.btn_cancelar.setText(QCoreApplication.translate("get_pasta", u"Cancelar", None))
-        self.btn_OK.setText(QCoreApplication.translate("get_pasta", u"OK", None))
+        self.btn_cancelar.setText(QCoreApplication.translate("get_information", u"Cancelar", None))
+        self.btn_OK.setText(QCoreApplication.translate("get_information", u"OK", None))
     # retranslateUi
 

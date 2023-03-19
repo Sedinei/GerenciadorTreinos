@@ -1,10 +1,11 @@
 from typing import Optional, List, Tuple
 from dataclasses import dataclass, field
 from collections import namedtuple
-import logging
 from .dao import DAOControls, DAOError
+from .utils import raise_log, fix_register_values
 
-User = namedtuple('User', ['id', 'name', 'email', 'type'])
+User = namedtuple('User', ['id', 'name', 'type', 'email'])
+TYPES_USER = ['Gerenciador', 'Registrador', 'Leitor']
 
 class ControlsError(Exception): pass
 
@@ -16,12 +17,12 @@ class Controls:
     _dao: DAOControls = field(init=False)
     
     def __post_init__(self) -> None:
-        self._dao = DAOControls(self.pasta)
+        self._dao = DAOControls(self.pasta, TYPES_USER)
         
     def change_user(self, id_user: int, name_user: str, email_user: str, type_user: str) -> None:
         if name_user and not self._dao.check_unique_name_user(name_user):
             msg = f'Já existe um usuário com o nome "{name_user}".'
-            self._raise_log(msg)
+            raise_log(ControlsError, msg)
         try:
             self._dao.change_user(id_user, name_user, email_user, type_user)
         except DAOError as e:
@@ -31,10 +32,15 @@ class Controls:
             msg += f'email_user: {email_user}\n'
             msg += f'type_user: {type_user}\n'
             msg += f'Em razão do seguinte erro: {e.args[0]}'
-            self._raise_log('Erro no programa.', msg)
+            raise_log(ControlsError, 'Erro no programa.', msg)
     
-    def get_all_users(self) -> List[Tuple[int, str, str, str]]:
-        return self._dao.get_all_users()
+    def get_types_user(self) -> List[str]:
+        return TYPES_USER
+    
+    def get_all_users(self) -> List[User]:
+        dao_users = self._dao.get_all_users()
+        return [User(*fix_register_values(dao_user))
+                for dao_user in dao_users]
         
     def login(self, user: str, password: str) -> None:
         if self.logged:
@@ -44,13 +50,13 @@ class Controls:
         if self.logged:
             self.user_logged = User(*self._dao.get_user(id_user))
         else:
-            self._raise_log('Senha ou usuário inválido!')
+            raise_log(ControlsError, 'Senha ou usuário inválido!')
     
     def remove_user(self, id_user: int) -> None:
         try:
             self._dao.remove_user(id_user)
         except DAOError as e:
-            self._raise_log(e.args[0])
+            raise_log(ControlsError, e.args[0])
     
     def save_password_user(self, id_user: int, password: str) -> None:
         try:
@@ -58,16 +64,11 @@ class Controls:
         except DAOError as e:
             msg = f'Não foi possível alterar a senha para o usuário de id "{id_user}" ' \
                   f'em razão do seguinte erro: {e.args[0]}'
-            self._raise_log('Erro na aplicação.', msg)
+            raise_log(ControlsError, 'Erro na aplicação.', msg)
     
     def save_user(self, name_user: str, email_user: str, type_user: str, password: str):
         try:
             self._dao.save_user(name_user, email_user, type_user, password)
         except DAOError as e:
-            self._raise_log(e.args[0])
-            
-    def _raise_log(self, message_error: str, message_log: str='') -> None:
-        message_log = message_log if message_log else message_error
-        logging.error(f'Controls: {message_log}')
-        raise ControlsError(message_error)
+            raise_log(ControlsError, e.args[0])
     

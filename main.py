@@ -1,4 +1,7 @@
 from modulos.app import Manager
+from modulos.utils import raise_log
+
+class ControlsError(Exception): pass
 
 def main():
     Manager()

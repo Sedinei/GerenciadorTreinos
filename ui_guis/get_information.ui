@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>get_pasta</class>
- <widget class="QDialog" name="get_pasta">
+ <class>get_information</class>
+ <widget class="QDialog" name="get_information">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,24 +45,14 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;Informe a pasta de trabalho: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;Informe o solicitado: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="pasta">
+       <widget class="QLineEdit" name="texto">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btn_procurar">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(218, 218, 218);</string>
-        </property>
-        <property name="text">
-         <string>Procurar...</string>
         </property>
        </widget>
       </item>
