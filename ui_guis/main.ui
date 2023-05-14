@@ -52,12 +52,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_registro">
+        <widget class="QPushButton" name="btn_treinos">
          <property name="font">
           <font/>
          </property>
          <property name="text">
-          <string>REGISTRO</string>
+          <string>TREINOS</string>
          </property>
         </widget>
        </item>
@@ -234,7 +234,7 @@
            </font>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="cad_atletas">
            <attribute name="title">
@@ -363,15 +363,15 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="cad_gp_atletas">
+          <widget class="QWidget" name="cad_posicoes">
            <attribute name="title">
-            <string>Grupos Atletas</string>
+            <string>Posições</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
-               <widget class="QTreeWidget" name="tbl_gp_atletas">
+               <widget class="QTreeWidget" name="tbl_posicoes">
                 <column>
                  <property name="text">
                   <string>id</string>
@@ -399,7 +399,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_7">
                  <item>
-                  <widget class="QPushButton" name="btn_incluir_gp_atletas">
+                  <widget class="QPushButton" name="btn_incluir_posicoes">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -418,7 +418,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="btn_alterar_gp_atletas">
+                  <widget class="QPushButton" name="btn_alterar_posicoes">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -437,7 +437,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="btn_excluir_gp_atletas">
+                  <widget class="QPushButton" name="btn_excluir_posicoes">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>

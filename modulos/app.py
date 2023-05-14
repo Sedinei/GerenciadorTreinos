@@ -15,8 +15,8 @@ from guis.main_gui import Ui_MainWindow
 from .config import Config
 from .utils import raise_log
 from .controls import Controls, User, ControlsError
-from .entities import (Athletes, Athlete, EntitiesError, Coach, Coaches,
-                       SETS_DOMAINS, Domains, Domain, DomainInfo)
+from .entities import Athlete, Coach, Domain, DomainInfo, User, SETS_DOMAINS
+from .entities_ctrl import Athletes, EntitiesError, Coaches, Domains
 
 APP = QApplication(sys.argv)
 MW = QMainWindow()
@@ -143,18 +143,18 @@ class Manager:
             return False
         return True
     
-    def remove_domain(self, type_domain: str, domain: Domain) -> None:
+    def remove_register(self, type_register: str, register: Union[Athlete, Domain, User]) -> None:
         try:
-            self.dmns.remove_domain(type_domain, domain.id)
-        except EntitiesError as e:
-            msg = f'Não foi possível excluir o registro "{domain.name}"'
-            self.box_error(msg, e.args[0])
-    
-    def remove_user(self, id_user: int, name_user: str) -> None:
-        try:
-            self.ctrls.remove_user(id_user)
-        except ControlsError as e:
-            msg = f'Não foi possível excluir o usuário "{name_user}"'
+            if type_register in SETS_DOMAINS:
+                self.dmns.remove_domain(type_register, register.id)
+            elif type_register == 'athlete':
+                self.atlts.remove_athlete(register.id)
+            elif type_register == 'coach':
+                self.coach.remove_coach(register.id)
+            elif type_register == 'user':
+                self.ctrls.remove_user(register.id)
+        except (ControlsError, EntitiesError) as e:
+            msg = f'Não foi possível excluir o registro "{register.name}"'
             self.box_error(msg, e.args[0])
     
     def save_domain(self, type_domain: str, domain: Domain, insert: bool) -> bool:
@@ -368,6 +368,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.first_time_cadastro = True
         self.pages.setCurrentWidget(self.pg_home)
 
+    def remove_selected_items(self, type_register: str) -> Optional[List[List[str]]]:
+        registers = eval(f'self.mw.tbl_{type_register}.selectedItems()')
+        if not self.app.is_at_least_one_selected(len(registers)):
+            return
+        registers = self._get_data_table(registers)
+        nm_registers = [register[1] for register in registers]
+        title = f'Exclusão de Registros'
+        msg = f'Você deseja excluir o seguintes registros?\n'
+        msg += '\n'.join(nm_registers)
+        if not self.app.box_question(title, msg): return
+        if type_register in SETS_DOMAINS:
+            register_cls = Domain
+            tab_ind = SETS_DOMAINS[type_register].ind_tab
+        elif type_register == 'athlete':
+            register_cls = Athlete
+            tab_ind = 0
+        elif type_register == 'coach':
+            register_cls = Coach
+            tab_ind = 4
+        elif type_register == 'user':
+            register_cls = User
+            tab_ind = 5
+        for register in registers:
+            self.app.remove_register(type_register, register_cls(*register))
+        self._set_pg_cadastro_tab(tab_ind)
+
     def _get_data_table(self, registers: List[QTreeWidgetItem]) -> List[List[str]]:
         result = []
         for register in registers:
@@ -401,29 +427,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if acction == 'fechar': self._return()
             elif acction == 'manter': exec(f'self.{cls_name}.set_pg_include()')
 
-    def _send_button_name(self) -> None:
-        splited_btn_name = self.sender().objectName().split('_')
-        acction = splited_btn_name[-3]
-        type_domain = '_'.join(splited_btn_name[-2:])
-        page_return = f'cad_{type_domain}'
-        self.domains.start_domain_view(type_domain, acction, page_return)
-
     def _set_connections(self) -> None:
         self.btn_home.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_home))
         self.btn_cadastro.clicked.connect(self._set_pg_cadastro)
         self.btn_registro.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_registro))
         self.btn_relatorios.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_relatorios))
         self.btn_conta.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_conta))
+        self.btn_salvar_fechar_athletes.clicked.connect(self._save)
+        self.btn_salvar_fechar_domains.clicked.connect(self._save)
+        self.btn_salvar_fechar_users.clicked.connect(self._save)
+        self.btn_salvar_manter_athletes.clicked.connect(self._save)
+        self.btn_salvar_manter_domains.clicked.connect(self._save)
+        self.btn_salvar_manter_users.clicked.connect(self._save)
+        self.btn_voltar_athletes.clicked.connect(self._return)
+        self.btn_voltar_domains.clicked.connect(self._return)
+        self.btn_voltar_users.clicked.connect(self._return)
         self.qtab_cadastro.tabBarClicked.connect(self._set_pg_cadastro_tab)
         for widget in self.__dict__:
+            if not widget.startswith('btn_'): continue
             if widget.startswith('btn_voltar_'): exec(f'self.{widget}.clicked.connect(self._return)')
             elif (widget.startswith('btn_salvar_fechar_') or
                   widget.startswith('btn_salvar_manter_')): exec(f'self.{widget}.clicked.connect(self._save)')
-        for widget in self.__dict__:
-            if not widget.startswith('btn_'): continue
-            splited_name = widget.split('_')
-            if '_'.join(splited_name[-2:]) in SETS_DOMAINS:
-                exec(f'self.{widget}.clicked.connect(self._send_button_name)')
+            else:
+                splited_name = widget.split('_')
+                if '_'.join(splited_name[-2:]) in SETS_DOMAINS:
+                    exec(f'self.{widget}.clicked.connect(self._start_domain)')
         
     def _set_pg_cadastro(self) -> None:
         if self.first_time_cadastro:
@@ -441,6 +469,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for register in registers:
             QTreeWidgetItem(widget, register)
     
+    def _start_domain(self) -> None:
+        splited_btn_name = self.sender().objectName().split('_')
+        acction = splited_btn_name[-3]
+        type_domain = '_'.join(splited_btn_name[-2:])
+        page_return = f'cad_{type_domain}'
+        self.domains.start_domain_view(type_domain, acction, page_return)
+
         
 @dataclass
 class UsersView:
@@ -591,6 +626,7 @@ class UsersView:
 @dataclass
 class AthletesView:
     mw: MainWindow
+    selected: Optional[Athlete] = field(init=False)
     
     def __post_init__(self) -> None:
         self.mw.btn_incluir_atleta.clicked.connect(self._set_pg_cad_atleta)
@@ -599,10 +635,12 @@ class AthletesView:
         self.mw.btn_cad_alt_atleta_incluir_grupo.clicked.connect(self._new_group)
      
     def _new_group(self) -> None:
-        pass
+        self.mw.domains.start_domain_view(type_domain='posicoes',
+                                          acction='incluir',
+                                          page_retun='pg_cad_alt_atleta')
       
     def _remove_athlete(self) -> None:
-        pass
+        self.mw.remove_selected_items('athlete')
     
     def _save_athlete(self) -> None:
         self.mw.pages.setCurrentWidget(self.mw.pg_cadastro)
@@ -632,7 +670,7 @@ class DomainsView:
     page_return: str = field(init=False)
     selected: Optional[Domain] = field(init=False)
     type_domain: str = field(init=False)
-            
+    
     def save(self) -> bool:
         domain = Domain(id=None,
                         name=self.mw.txt_nome_dominio.text(),
@@ -661,7 +699,7 @@ class DomainsView:
         self.mw.btn_salvar_manter_domains.setHidden(False)
         self.mw.txt_nome_dominio.setFocus()
         self.mw.pages.setCurrentWidget(self.mw.pg_dominio)
-        
+            
     def start_domain_view(self, type_domain: str, acction: str, page_retun: str) -> None:
         self.type_domain = type_domain
         self.page_return = page_retun
@@ -672,18 +710,7 @@ class DomainsView:
         elif acction == 'excluir': self._remove_domain()
         
     def _remove_domain(self) -> None:
-        registers = eval(f'self.mw.tbl_{self.type_domain}.selectedItems()')
-        if not self.mw.app.is_at_least_one_selected(len(registers)):
-            return
-        registers = self.mw._get_data_table(registers)
-        nm_domains = [register[1] for register in registers]
-        title = f'Exclusão de {self.domain_info.title}'
-        msg = f'Você deseja excluir o seguintes {self.domain_info.title}?\n'
-        msg += '\n'.join(nm_domains)
-        if not self.mw.app.box_question(title, msg): return
-        for register in registers:
-            self.mw.app.remove_domain(self.type_domain, Domain(*register))
-        self.mw._set_pg_cadastro_tab(self.domain_info.ind_tab)
+        self.mw.remove_selected_items(self.type_domain)
     
     def _select_domain_change(self) -> None:
         register = eval(f'self.mw.tbl_{self.type_domain}.selectedItems()')
@@ -692,7 +719,7 @@ class DomainsView:
         register = self.mw._get_data_table(register)[0]
         self.selected = Domain(*register)
         self._set_pg_change()
-        
+    
     def _set_pg_change(self) -> None:
         self.mw.txt_nome_dominio.setText(self.selected.name)
         self.mw.txt_descricao_dominio.setText(self.selected.description)
@@ -701,5 +728,4 @@ class DomainsView:
         self.mw.btn_salvar_manter_domains.setHidden(True)
         self.mw.txt_nome_dominio.setFocus()
         self.mw.pages.setCurrentWidget(self.mw.pg_dominio)
-    
     

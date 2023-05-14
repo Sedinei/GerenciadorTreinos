@@ -1,7 +1,7 @@
-from typing import Tuple, List
-import logging
+from typing import Tuple, List, Union
 from dataclasses import dataclass, field
-from .utils import singleton, raise_log
+from .utils import singleton, raise_log, fix_register_values
+from .entities import Athlete, Coach, Domain, DomainInfo, User, SETS_DOMAINS
 import os
 import bcrypt
 import sqlite3
@@ -222,20 +222,43 @@ class DAODados:
             except DBError as e:
                 raise_log(DAOError, e.args[0])
     
-    def get_all_athletes(self) -> List[Tuple[int, str, str, str, str, str]]:
+    def get_all_registers(self, type_register) -> List[Union[Athlete, Domain, Coach]]:
+        if type_register in SETS_DOMAINS:
+            table = SETS_DOMAINS[type_register].table
+            sql = f'''SELECT
+                         id_{type_register}
+                        ,nome_{type_register}
+                        ,descricao_{type_register}
+                      FROM {table}
+                      WHERE arquivado_{type_register}=FALSE'''
+            register_cls = Domain
+        elif type_register == 'athlete':
+            sql = '''SELECT
+                         t1.id_atleta
+                        ,t1.nome_atleta
+                        ,t1.dt_nasc_atleta
+                        ,t2.descricao_posicao
+                        ,t1.dt_inicio_atleta
+                        ,t1.dt_fim_atleta
+                     FROM atleta AS t1
+                     LEFT JOIN posicao AS t2
+                        ON t1.id_posicao = t2.id_posicao'''
+            register_cls = Athlete
+        elif type_register == 'coach':
+            sql = '''SELECT
+                         id_treinador
+                        ,nome_treinador
+                        ,dt_inicio_treinador
+                        ,dt_fim_treinador
+                     FROM treinador'''
+            register_cls = Coach
+        else:
+            raise_log(DAOError, 'Tipo inválido!')
         with self.con as c:
-            c.execute('''SELECT
-                             t1.id_atleta
-                            ,t1.nome_atleta
-                            ,t1.dt_nasc_atleta
-                            ,t2.nome_gp_atletas
-                            ,t1.dt_inicio_atleta
-                            ,t1.dt_fim_atleta
-                        FROM atleta AS t1
-                        LEFT JOIN grupo_atletas AS t2
-                        ON t1.id_gp_atletas=t2.id_gp_atletas''')
-            athletes = c.fetchall()
-            return athletes
+            c.execute(sql)
+            registers = c.fetchall()
+            return [register_cls(*fix_register_values(register))
+                    for register in registers]
     
     def get_all_coaches(self) -> List[Tuple[int, str]]:
         with self.con as c:
@@ -259,18 +282,18 @@ class DAODados:
     
     def get_groups(self) -> List[str]:
         with self.con as c:
-            c.execute('''SELECT nome_gp_atletas
-                         FROM grupo_atletas
-                         WHERE arquivado_gp_atletas=TRUE''')
+            c.execute('''SELECT nome_posicao
+                         FROM posicao
+                         WHERE arquivado_posicao=TRUE''')
             groups = c.fetchall()
             return [group[0] for group in groups]
         
     def insert_athlete(self, name: str, dt_born: str, group: str, dt_start: str) -> None:
         with self.con as c:
             t = (group, )
-            sql = '''SELECT id_gp_atletas
-                     FROM grupo_atletas
-                     WHERE nome_gp_atletas=?'''
+            sql = '''SELECT id_posicao
+                     FROM posicao
+                     WHERE nome_posicao=?'''
             c.execute(sql, t)
             id_group = c.fetchone()[0]
             t = (name, dt_born, id_group, dt_start)
@@ -285,9 +308,16 @@ class DAODados:
             c.execute(sql, t)
             return c.fetchone()[0] == 0
     
-    def remove_domain(self, table: str, suffix: str, id_domain: int) -> None:
-        t = (id_domain,)
-        sql = f'DELETE FROM {table} WHERE id_{suffix}=?'
+    def remove_register(self, type_register: str, id_register: int, table: str = '') -> None:
+        t = (id_register,)
+        if type_register in ('posicao', 'tp_dispensa', 'tp_treino'):
+            sql = f'DELETE FROM {table} WHERE id_{type_register}=?'
+        elif type_register == 'coach':
+            sql = f'DELETE FROM treinador WHERE id_treinador=?'
+        elif type_register == 'athletes':
+            sql = f'DELETE FROM atletas WHERE id_atleta=?'
+        else:
+            raise_log(DAOError, 'Tipo inválido')
         with self.con as c:
             try:
                 c.execute(sql, t)
@@ -315,11 +345,11 @@ class DAODados:
                     dt_inicio_treinador TEXT NOT NULL,
                     dt_fim_treinador TEXT,
                     arquivado_treinador BOOLEAN)''',
-                '''CREATE TABLE grupo_atletas (
-                    id_gp_atletas INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    nome_gp_atletas TEXT UNIQUE NOT NULL,
-                    descricao_gp_atletas TEXT NOT NULL,
-                    arquivado_gp_atletas BOOLEAN)''',
+                '''CREATE TABLE posicao (
+                    id_posicao INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    nome_posicao TEXT UNIQUE NOT NULL,
+                    descricao_posicao TEXT NOT NULL,
+                    arquivado_posicao BOOLEAN)''',
                 '''CREATE TABLE tipo_dispensa (
                     id_tp_dispensa INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_tp_dispensa TEXT UNIQUE NOT NULL,
@@ -329,11 +359,11 @@ class DAODados:
                     id_atleta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     nome_atleta TEXT UNIQUE NOT NULL,
                     dt_nasc_atleta TEXT NOT NULL,
-                    id_gp_atletas INTEGER NOT NULL,
+                    id_posicao INTEGER NOT NULL,
                     dt_inicio_atleta TEXT NOT NULL,
                     dt_fim_atleta TEXT,
-                    FOREIGN KEY(id_gp_atletas)
-                    REFERENCES grupo_atletas(id_gp_atletas))''',
+                    FOREIGN KEY(id_posicao)
+                    REFERENCES posicao(id_posicao))''',
                 '''CREATE TABLE dispensa (
                     id_tp_dispensa INTEGER NOT NULL,
                     id_atleta INTEGER NOT NULL,

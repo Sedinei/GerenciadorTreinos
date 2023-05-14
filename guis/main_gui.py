@@ -56,11 +56,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.btn_cadastro)
 
-        self.btn_registro = QPushButton(self.frame)
-        self.btn_registro.setObjectName(u"btn_registro")
-        self.btn_registro.setFont(font)
+        self.btn_treinos = QPushButton(self.frame)
+        self.btn_treinos.setObjectName(u"btn_treinos")
+        self.btn_treinos.setFont(font)
 
-        self.horizontalLayout.addWidget(self.btn_registro)
+        self.horizontalLayout.addWidget(self.btn_treinos)
 
         self.btn_relatorios = QPushButton(self.frame)
         self.btn_relatorios.setObjectName(u"btn_relatorios")
@@ -213,49 +213,49 @@ class Ui_MainWindow(object):
         self.verticalLayout_16.addLayout(self.horizontalLayout_9)
 
         self.qtab_cadastro.addTab(self.cad_atletas, "")
-        self.cad_gp_atletas = QWidget()
-        self.cad_gp_atletas.setObjectName(u"cad_gp_atletas")
-        self.verticalLayout_8 = QVBoxLayout(self.cad_gp_atletas)
+        self.cad_posicoes = QWidget()
+        self.cad_posicoes.setObjectName(u"cad_posicoes")
+        self.verticalLayout_8 = QVBoxLayout(self.cad_posicoes)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.tbl_gp_atletas = QTreeWidget(self.cad_gp_atletas)
-        self.tbl_gp_atletas.setObjectName(u"tbl_gp_atletas")
+        self.tbl_posicoes = QTreeWidget(self.cad_posicoes)
+        self.tbl_posicoes.setObjectName(u"tbl_posicoes")
 
-        self.horizontalLayout_6.addWidget(self.tbl_gp_atletas)
+        self.horizontalLayout_6.addWidget(self.tbl_posicoes)
 
-        self.frame_7 = QFrame(self.cad_gp_atletas)
+        self.frame_7 = QFrame(self.cad_posicoes)
         self.frame_7.setObjectName(u"frame_7")
         self.frame_7.setFrameShape(QFrame.StyledPanel)
         self.frame_7.setFrameShadow(QFrame.Raised)
         self.verticalLayout_7 = QVBoxLayout(self.frame_7)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.btn_incluir_gp_atletas = QPushButton(self.frame_7)
-        self.btn_incluir_gp_atletas.setObjectName(u"btn_incluir_gp_atletas")
-        sizePolicy.setHeightForWidth(self.btn_incluir_gp_atletas.sizePolicy().hasHeightForWidth())
-        self.btn_incluir_gp_atletas.setSizePolicy(sizePolicy)
-        self.btn_incluir_gp_atletas.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_incluir_gp_atletas.setStyleSheet(u"")
+        self.btn_incluir_posicoes = QPushButton(self.frame_7)
+        self.btn_incluir_posicoes.setObjectName(u"btn_incluir_posicoes")
+        sizePolicy.setHeightForWidth(self.btn_incluir_posicoes.sizePolicy().hasHeightForWidth())
+        self.btn_incluir_posicoes.setSizePolicy(sizePolicy)
+        self.btn_incluir_posicoes.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_incluir_posicoes.setStyleSheet(u"")
 
-        self.verticalLayout_7.addWidget(self.btn_incluir_gp_atletas)
+        self.verticalLayout_7.addWidget(self.btn_incluir_posicoes)
 
-        self.btn_alterar_gp_atletas = QPushButton(self.frame_7)
-        self.btn_alterar_gp_atletas.setObjectName(u"btn_alterar_gp_atletas")
-        sizePolicy.setHeightForWidth(self.btn_alterar_gp_atletas.sizePolicy().hasHeightForWidth())
-        self.btn_alterar_gp_atletas.setSizePolicy(sizePolicy)
-        self.btn_alterar_gp_atletas.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_alterar_gp_atletas.setStyleSheet(u"")
+        self.btn_alterar_posicoes = QPushButton(self.frame_7)
+        self.btn_alterar_posicoes.setObjectName(u"btn_alterar_posicoes")
+        sizePolicy.setHeightForWidth(self.btn_alterar_posicoes.sizePolicy().hasHeightForWidth())
+        self.btn_alterar_posicoes.setSizePolicy(sizePolicy)
+        self.btn_alterar_posicoes.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_alterar_posicoes.setStyleSheet(u"")
 
-        self.verticalLayout_7.addWidget(self.btn_alterar_gp_atletas)
+        self.verticalLayout_7.addWidget(self.btn_alterar_posicoes)
 
-        self.btn_excluir_gp_atletas = QPushButton(self.frame_7)
-        self.btn_excluir_gp_atletas.setObjectName(u"btn_excluir_gp_atletas")
-        sizePolicy.setHeightForWidth(self.btn_excluir_gp_atletas.sizePolicy().hasHeightForWidth())
-        self.btn_excluir_gp_atletas.setSizePolicy(sizePolicy)
-        self.btn_excluir_gp_atletas.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_excluir_gp_atletas.setStyleSheet(u"")
+        self.btn_excluir_posicoes = QPushButton(self.frame_7)
+        self.btn_excluir_posicoes.setObjectName(u"btn_excluir_posicoes")
+        sizePolicy.setHeightForWidth(self.btn_excluir_posicoes.sizePolicy().hasHeightForWidth())
+        self.btn_excluir_posicoes.setSizePolicy(sizePolicy)
+        self.btn_excluir_posicoes.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_excluir_posicoes.setStyleSheet(u"")
 
-        self.verticalLayout_7.addWidget(self.btn_excluir_gp_atletas)
+        self.verticalLayout_7.addWidget(self.btn_excluir_posicoes)
 
         self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -267,7 +267,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_6)
 
-        self.qtab_cadastro.addTab(self.cad_gp_atletas, "")
+        self.qtab_cadastro.addTab(self.cad_posicoes, "")
         self.cad_tp_dispensa = QWidget()
         self.cad_tp_dispensa.setObjectName(u"cad_tp_dispensa")
         self.verticalLayout_10 = QVBoxLayout(self.cad_tp_dispensa)
@@ -1268,7 +1268,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Gerenciador de Treinos", None))
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"HOME", None))
         self.btn_cadastro.setText(QCoreApplication.translate("MainWindow", u"CADASTRO", None))
-        self.btn_registro.setText(QCoreApplication.translate("MainWindow", u"REGISTRO", None))
+        self.btn_treinos.setText(QCoreApplication.translate("MainWindow", u"TREINOS", None))
         self.btn_relatorios.setText(QCoreApplication.translate("MainWindow", u"RELAT\u00d3RIOS", None))
         self.btn_conta.setText(QCoreApplication.translate("MainWindow", u"CONTA", None))
         self.label.setText("")
@@ -1284,14 +1284,14 @@ class Ui_MainWindow(object):
         self.btn_alterar_atleta.setText(QCoreApplication.translate("MainWindow", u"Alterar", None))
         self.btn_excluir_atletas.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
         self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_atletas), QCoreApplication.translate("MainWindow", u"Atletas", None))
-        ___qtreewidgetitem1 = self.tbl_gp_atletas.headerItem()
+        ___qtreewidgetitem1 = self.tbl_posicoes.headerItem()
         ___qtreewidgetitem1.setText(2, QCoreApplication.translate("MainWindow", u"Descri\u00e7\u00e3o", None));
         ___qtreewidgetitem1.setText(1, QCoreApplication.translate("MainWindow", u"Nome", None));
         ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"id", None));
-        self.btn_incluir_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Incluir", None))
-        self.btn_alterar_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Alterar", None))
-        self.btn_excluir_gp_atletas.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
-        self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_gp_atletas), QCoreApplication.translate("MainWindow", u"Grupos Atletas", None))
+        self.btn_incluir_posicoes.setText(QCoreApplication.translate("MainWindow", u"Incluir", None))
+        self.btn_alterar_posicoes.setText(QCoreApplication.translate("MainWindow", u"Alterar", None))
+        self.btn_excluir_posicoes.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
+        self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_posicoes), QCoreApplication.translate("MainWindow", u"Posi\u00e7\u00f5es", None))
         ___qtreewidgetitem2 = self.tbl_tp_dispensa.headerItem()
         ___qtreewidgetitem2.setText(2, QCoreApplication.translate("MainWindow", u"Descri\u00e7\u00e3o", None));
         ___qtreewidgetitem2.setText(1, QCoreApplication.translate("MainWindow", u"Nome", None));
@@ -1309,6 +1309,8 @@ class Ui_MainWindow(object):
         self.btn_excluir_tp_treino.setText(QCoreApplication.translate("MainWindow", u"Excluir", None))
         self.qtab_cadastro.setTabText(self.qtab_cadastro.indexOf(self.cad_tp_treino), QCoreApplication.translate("MainWindow", u"Tipos Treino", None))
         ___qtreewidgetitem4 = self.tbl_treinadores.headerItem()
+        ___qtreewidgetitem4.setText(3, QCoreApplication.translate("MainWindow", u"Fim", None));
+        ___qtreewidgetitem4.setText(2, QCoreApplication.translate("MainWindow", u"In\u00edcio", None));
         ___qtreewidgetitem4.setText(1, QCoreApplication.translate("MainWindow", u"Nome", None));
         ___qtreewidgetitem4.setText(0, QCoreApplication.translate("MainWindow", u"id", None));
         self.btn_incluir_treinador.setText(QCoreApplication.translate("MainWindow", u"Incluir", None))

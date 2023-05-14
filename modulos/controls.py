@@ -2,10 +2,8 @@ from typing import Optional, List, Tuple
 from dataclasses import dataclass, field
 from collections import namedtuple
 from .dao import DAOControls, DAOError
+from .entities import User, TYPES_USER
 from .utils import raise_log, fix_register_values
-
-User = namedtuple('User', ['id', 'name', 'type', 'email'])
-TYPES_USER = ['Gerenciador', 'Registrador', 'Leitor']
 
 class ControlsError(Exception): pass
 
