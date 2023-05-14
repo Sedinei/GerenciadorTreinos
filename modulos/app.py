@@ -121,7 +121,7 @@ class Manager:
     
     def is_at_least_one_selected(self, num_registers: int) -> bool:
         if num_registers == 0:
-            msg = 'Você precisa selecionar ao menos um registro!'
+            msg = 'Você precisa selecionar ao menos um treinos!'
             self.box_error(msg)
             return False
         return True  
@@ -129,7 +129,7 @@ class Manager:
     def is_just_one_selected(self, num_registers: int) -> bool:
         if self.is_at_least_one_selected(num_registers):
             if num_registers > 1:
-                msg = 'Você só pode alterar um registro por vez!'
+                msg = 'Você só pode alterar um treinos por vez!'
                 self.box_error(msg)
                 return False
         return True  
@@ -154,7 +154,7 @@ class Manager:
             elif type_register == 'user':
                 self.ctrls.remove_user(register.id)
         except (ControlsError, EntitiesError) as e:
-            msg = f'Não foi possível excluir o registro "{register.name}"'
+            msg = f'Não foi possível excluir o treinos "{register.name}"'
             self.box_error(msg, e.args[0])
     
     def save_domain(self, type_domain: str, domain: Domain, insert: bool) -> bool:
@@ -360,7 +360,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.domains = DomainsView(self)
         self._CLEAN_BUTTONS = ['btn_home',
                                'btn_cadastro',
-                               'btn_registro',
+                               'btn_treinos',
                                'btn_relatorios',
                                'btn_conta']
         self.app.set_standard_window(self)
@@ -374,8 +374,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         registers = self._get_data_table(registers)
         nm_registers = [register[1] for register in registers]
-        title = f'Exclusão de Registros'
-        msg = f'Você deseja excluir o seguintes registros?\n'
+        title = f'Exclusão de treinoss'
+        msg = f'Você deseja excluir o seguintes treinoss?\n'
         msg += '\n'.join(nm_registers)
         if not self.app.box_question(title, msg): return
         if type_register in SETS_DOMAINS:
@@ -430,7 +430,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _set_connections(self) -> None:
         self.btn_home.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_home))
         self.btn_cadastro.clicked.connect(self._set_pg_cadastro)
-        self.btn_registro.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_registro))
+        self.btn_treinos.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_treinos))
         self.btn_relatorios.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_relatorios))
         self.btn_conta.clicked.connect(lambda: self.pages.setCurrentWidget(self.pg_conta))
         self.btn_salvar_fechar_athletes.clicked.connect(self._save)
@@ -635,7 +635,7 @@ class AthletesView:
         self.mw.btn_cad_alt_atleta_incluir_grupo.clicked.connect(self._new_group)
      
     def _new_group(self) -> None:
-        self.mw.domains.start_domain_view(type_domain='posicoes',
+        self.mw.domains.start_domain_view(type_domain='posicao',
                                           acction='incluir',
                                           page_retun='pg_cad_alt_atleta')
       

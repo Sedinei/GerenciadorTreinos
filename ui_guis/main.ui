@@ -363,7 +363,7 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="cad_posicoes">
+          <widget class="QWidget" name="cad_posicao">
            <attribute name="title">
             <string>Posições</string>
            </attribute>
@@ -371,7 +371,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
-               <widget class="QTreeWidget" name="tbl_posicoes">
+               <widget class="QTreeWidget" name="tbl_posicao">
                 <column>
                  <property name="text">
                   <string>id</string>
@@ -399,7 +399,7 @@
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_7">
                  <item>
-                  <widget class="QPushButton" name="btn_incluir_posicoes">
+                  <widget class="QPushButton" name="btn_incluir_posicao">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -418,7 +418,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="btn_alterar_posicoes">
+                  <widget class="QPushButton" name="btn_alterar_posicao">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -437,7 +437,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="btn_excluir_posicoes">
+                  <widget class="QPushButton" name="btn_excluir_posicao">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
@@ -2684,7 +2684,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pg_registro">
+      <widget class="QWidget" name="pg_treinos">
        <widget class="QLabel" name="label_9">
         <property name="geometry">
          <rect>
@@ -2695,7 +2695,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt;&quot;&gt;Página de registro&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:26pt;&quot;&gt;Página de treinos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </widget>

@@ -8,7 +8,7 @@ User = namedtuple('User', ['id', 'name', 'type', 'email'])
 
 TYPES_USER = ['Gerenciador', 'Registrador', 'Leitor']
 
-SETS_DOMAINS = {'posicoes': DomainInfo(title='Posição',
+SETS_DOMAINS = {'posicao': DomainInfo(title='Posição',
                                         placeholder='posição',
                                         table='posicao',
                                         ind_tab=1),
